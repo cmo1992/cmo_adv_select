@@ -1,4 +1,4 @@
 name = Advanced Webform Select Option
 description = "Adds advanced options to Select option."
-package = "CMO's Modules"
+package = C-MO's Modules
 core = 7.x
