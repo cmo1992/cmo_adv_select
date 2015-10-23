@@ -7,7 +7,7 @@
 
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
   
-  if(isset($form['node'])){
+  if(isset($form['#node'])){
     dsm($form);
     dsm($form_state);
   }
