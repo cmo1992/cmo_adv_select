@@ -9,25 +9,30 @@
  * Implements hook_form_alter().
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
+  
   if(isset($form['#node'])){
     // Start Devel
-    dsm($form);
-    dsm($form_state);
+    //print "<h3>cmo_adv_select_form_alter</h3>";
+    //dsm($form);
+    //dsm($form_state);
     // End Devel
     
-    $components = $form['#node']['webform']['components'];
-    foreach ($components as $key => $component) {
+    $comps = $form['#node']->webform['components'];
+    //dsm($comps);
+    foreach ($comps as $key => $component) {
       if($component['type'] === 'select'){
         //Grab selectors string
         $extra_items = $component['extra']['items'];
         //Split into options
-        $items = split('\n', $extra_items);
+        //dsm($extra_items);
+        $items = explode("\n", $extra_items);
         $its = array();
         //Split into key => value
         foreach ($items as $item) {
-          $tmp = split('|', $item);
-          $session = split('_', $tmp[0]);
-          if(count($session) == 2 && is_int($session[1])){
+          $tmp = explode('|', $item);
+          $session = explode('_', $tmp[0]);
+          if(count($session) == 2 && is_numeric($session[1])){
+            print "inside if";
             $values = array('session_name' => $session[0], 'session_copasity' => $session[1], 'session_details' => $tmp[1]);
             $its[$tmp[0]] = $values;
           } else {
@@ -35,7 +40,7 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
           }
           
         }
-        echo '<div>' . var_dump($its) . '</div';
+        dsm($its);
       }
     }
   }
