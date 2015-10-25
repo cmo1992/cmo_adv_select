@@ -4,44 +4,137 @@
  * @file
  * Advanced Webform Select Option
  */
+/**
+ * Implements hook_help().
+ */
+function cmo_adv_select_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case 'admin/config/development/cmo_adv_select' :
+      $output .= '<p>' . t('Add URLs for sign up forms that use a select ' .
+        'option for the sessions. The options will have to be formatted ' .
+        '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
+        '</p>';
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function cmo_adv_select_menu() {
+  $items = array(
+    'admin/config/development/cmo_adv_select' => array(
+      'title' => 'CMO\'s Advanced Select' ,
+      'description' => 'Add URLs for sign up forms that use a select option for the sessions',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('cmo_adv_select_admin_settings'),
+      'access arguments' => array('administer Advanced Select Settings'),
+      'file' => 'cmo_adv_select.admin.inc',
+   ),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cmo_adv_select_permission() {
+  return array(
+    'administer Advanced Select Settings' => array(
+      'title' => t('Administer Access to CMO\'sAdvanced Select Settings'),
+      'description' => t('Access the CMO\'s Advanced Select Settings.'),
+    ),
+  );
+}
 
 /**
  * Implements hook_form_alter().
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
-  
-  if(isset($form['#node'])){
-    // Start Devel
-    //print "<h3>cmo_adv_select_form_alter</h3>";
+  //dsm($form);
+  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
     //dsm($form);
-    //dsm($form_state);
-    // End Devel
-    
-    $comps = $form['#node']->webform['components'];
-    //dsm($comps);
-    foreach ($comps as $key => $component) {
-      if($component['type'] === 'select'){
-        //Grab selectors string
-        $extra_items = $component['extra']['items'];
-        //Split into options
-        //dsm($extra_items);
-        $items = explode("\n", $extra_items);
-        $its = array();
-        //Split into key => value
-        foreach ($items as $item) {
-          $tmp = explode('|', $item);
-          $session = explode('_', $tmp[0]);
-          if(count($session) == 2 && is_numeric($session[1])){
-            print "inside if";
-            $values = array('session_name' => $session[0], 'session_copasity' => $session[1], 'session_details' => $tmp[1]);
-            $its[$tmp[0]] = $values;
-          } else {
-            break;
-          }
-          
+    $cid = '';
+    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+    //dsm($its);
+    //dsm($cid);
+    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+    //dsm($items);
+    $select_string = _cmo_adv_select_string_push_back($items);
+    //dsm($select_string);
+    $form['submitted'][$cid]['#options'] = $select_string;
+    //dsm($form);
+  }
+}
+
+/**
+ * Helper method to decode the session strings.
+ * @param type $comps
+ * @return type
+ */
+function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
+  $its = array();
+  foreach ($comps as $key => $component) {
+    if($component['#webform_component']['type'] === 'select') {
+      $cid = $key;
+      //dsm($cid);
+      //Grab selectors string
+      $extra_items = $component['#webform_component']['extra']['items'];
+      //Split into options
+      $items = explode("\n", $extra_items);
+      //Split into key => value
+      foreach ($items as $item) {
+        $tmp = explode('|', $item);
+        $session = explode('_', $tmp[0]);
+        if(count($session) == 2 && is_numeric($session[1])) {
+          $values = array('session_name' => $session[0], 'session_copasity' => intval($session[1]), 'session_details' => $tmp[1], 'submission_count' => 0);
+          $its[$tmp[0]] = $values;
+        } else {
+          break;
         }
-        dsm($its);
       }
     }
   }
+  return $its;
+}
+
+/**
+ * Helper method used to total up the submissions.
+ * @param type $nid
+ * @param type $its
+ * @return type
+ */
+function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
+  //module_load_include('inc', 'webform', 'include/submissions');
+  $sub = webform_get_submissions($nid);
+  //dsm($sub);
+  foreach ($sub as $submission) {
+    $selected_option = $submission->data[1];
+    //dsm($selected_option);
+    foreach ($its as $key => $value) {
+      if($key == $selected_option[0]){
+        $its[$key]['submission_count']++;
+      }
+    }
+  }
+  return $its;
+}
+
+/**
+ * Helper method to create the push bach string to the form
+ * @param type $items
+ */
+function _cmo_adv_select_string_push_back(&$items) {
+  $option = array();
+  foreach ($items as $key => $value) {
+    $seats_left = intval($value['session_copasity']) - intval($value['submission_count']);
+    //print "<h2>" . $seats_left . "</h2>";
+    if($seats_left > 0) {
+      $session_details = substr($value['session_details'], 0, strlen($value['session_details']) - 1);
+      $option[$key] = $session_details . t(". There are ") . $seats_left . t(" seats left\n");
+    }
+  }
+  return $option;
 }

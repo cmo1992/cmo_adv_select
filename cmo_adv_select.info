@@ -2,3 +2,4 @@ name = Advanced Webform Select Option
 description = "Adds advanced options to Select option."
 package = C-MO's Modules
 core = 7.x
+configure = admin/config/development/cmo_adv_select
