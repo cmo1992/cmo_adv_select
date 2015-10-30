@@ -140,6 +140,7 @@ function _cmo_adv_select_string_push_back(&$items) {
 }
 
 
-function session_selest_validate($form, &$form_state) {
+function session_select_validate($form, &$form_state) {
   watchdog("cmo", "session_selest_validate");
+  return;
 }
