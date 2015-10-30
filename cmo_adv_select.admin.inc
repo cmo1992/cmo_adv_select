@@ -39,6 +39,5 @@ function cmo_adv_select_admin_settings() {
 
 
 function session_selest_validate($form, &$form_state) {
-  dsm($form);
-  dsm($form_state);
+  watchdog("cmo", "session_selest_validate");
 }
