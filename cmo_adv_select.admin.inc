@@ -29,15 +29,8 @@ function cmo_adv_select_admin_settings() {
   $form['settings']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save settings'),
-    '#validate' => array(
-      'session_select_validate'
-    ),
   );
 
   return $form;
 }
 
-
-function session_selest_validate($form, &$form_state) {
-  watchdog("cmo", "session_selest_validate");
-}
