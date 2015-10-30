@@ -53,7 +53,6 @@ function cmo_adv_select_permission() {
  * Implements hook_form_alter().
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
-  dsm($form);
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
     //dsm($form);
     $cid = '';
@@ -66,6 +65,7 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
     //dsm($form);
+    $form['#validate'] = array('session_select_validate');
   }
 }
 
@@ -137,4 +137,9 @@ function _cmo_adv_select_string_push_back(&$items) {
     }
   }
   return $option;
+}
+
+
+function session_selest_validate($form, &$form_state) {
+  watchdog("cmo", "session_selest_validate");
 }
