@@ -141,6 +141,18 @@ function _cmo_adv_select_string_push_back(&$items) {
 
 
 function session_select_validate($form, &$form_state) {
-  watchdog("cmo", "session_selest_validate");
+  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
+    //dsm($form);
+    $cid = '';
+    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+    //dsm($its);
+    //dsm($cid);
+    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+    //dsm($items);
+    $select_string = _cmo_adv_select_string_push_back($items);
+    
+  }
+  $foo = print_r($form_state);
+  watchdog("cmo", "session_selest_validate: " . $foo);
   return;
 }
