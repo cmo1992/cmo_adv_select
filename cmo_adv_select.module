@@ -156,7 +156,7 @@ function cmo_adv_select_validate_from($form, &$form_state) {
     $select_string = _cmo_adv_select_string_push_back($items);
     
   }
-  $foo = print_r($form_state);
-  watchdog("cmo", "session_selest_validate: " . $foo);
+  //$foo = print_r($form_state);
+  //watchdog("cmo", "session_selest_validate: " . $foo);
   return;
 }
