@@ -146,7 +146,7 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
 
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
     dsm($form);
-    //dsm($form_state);
+    dsm($form_state);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
