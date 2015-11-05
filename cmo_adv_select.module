@@ -65,7 +65,7 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
     //dsm($form);
-    $form['#validate'] = array('cmo_adv_select_validate');
+    $form['#validate'] = array('cmo_adv_select_submit_validate');
   }
 }
 
@@ -142,10 +142,10 @@ function _cmo_adv_select_string_push_back(&$items) {
 /**
  * Implements drupal_validate_form.
  */
-function cmo_adv_select_validate($form, &$form_state) {
+function cmo_adv_select_submit_validate($form, &$form_state) {
 
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    //dsm($form);
+    dsm($form);
     //dsm($form_state);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
