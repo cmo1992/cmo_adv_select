@@ -105,9 +105,9 @@ function ajax_seat_check($form, $form_state) {
     //dsm($items);
     $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
     if($valid_registration)
-      dsm('true');
+      watchdog('cmo-php', 'true');
     else
-      dsm('false');
+      watchdog('cmo-php', 'false');
     if($valid_registration == false){
       $select_string = _cmo_adv_select_string_push_back($items);
       //dsm($select_string);
@@ -115,9 +115,9 @@ function ajax_seat_check($form, $form_state) {
       //dsm($form);
       $form['#validate'] = array('cmo_adv_select_submit_validate');
       //form_set_error($form['submitted'][$cid]);
-      $form['submitted'][$cid]['#description'] = t('You were to slow!! Please choose a different section');
+      $form['submitted'][$cid]['#webform_component']['extra']['description'] = t('You were to slow!! Please choose a different section');
     }
-    return $form['submitted'][$cid];  
+    return $form['submitted'][$cid]['#webform_component'];  
   }
 
 /**
