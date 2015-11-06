@@ -161,14 +161,25 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
     dsm($value_of_session);
     $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
     //dsm($items);
-    $select_string = _cmo_adv_select_string_push_back($items);
-    //dsm($select_string);
-    $form['submitted'][$cid]['#options'] = $select_string;
-    //dsm($form);
-    $form['#validate'] = array('cmo_adv_select_submit_validate');
-    
+    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+    if(!$valid_registration){
+      $select_string = _cmo_adv_select_string_push_back($items);
+      //dsm($select_string);
+      $form['submitted'][$cid]['#options'] = $select_string;
+      //dsm($form);
+      $form['#validate'] = array('cmo_adv_select_submit_validate');
+      form_set_value($form['submitted'][$cid], t('You were to slow!! There are NO more seats avalible in the selected session!'), $form_state);
+    }
   }
   
   return;
 }
 
+function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session){
+  foreach ($items as $key => $value) {
+    if($key === $value_of_session && $value['submission_count'] > 0){
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
