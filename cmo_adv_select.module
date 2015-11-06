@@ -148,7 +148,8 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
     dsm($form);
     dsm($form_state);
     $cid = '';
-    $hoo = _cmo_adv_select_seat_check($form['submitted']['sessions']['#value']);
+    $itss = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+    //$hoo = _cmo_adv_select_seat_check($form['submitted']['sessions']['#value']);
     
   }
   //$foo = print_r($form_state);
@@ -156,6 +157,33 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
   return;
 }
 
+  /**
+ * Helper method to decode the session strings.
+ * @param type $comps
+ * @return type
+ */
 function _cmo_adv_select_seat_check($valve){
-  
+  $its = array();
+  foreach ($comps as $key => $component) {
+    if($component['#webform_component']['type'] === 'select') {
+      $cid = $key;
+      //dsm($cid);
+      //Grab selectors string
+      $extra_items = $component['#webform_component']['extra']['items'];
+      //Split into options
+      $items = explode("\n", $extra_items);
+      //Split into key => value
+      foreach ($items as $item) {
+        $tmp = explode('|', $item);
+        $session = explode('_', $tmp[0]);
+        if(count($session) == 2 && is_numeric($session[1])) {
+          $values = array('session_name' => $session[0], 'session_copasity' => intval($session[1]), 'session_details' => $tmp[1], 'submission_count' => 0);
+          $its[$tmp[0]] = $values;
+        } else {
+          break;
+        }
+      }
+    }
+  }
+  return $its;
 }
