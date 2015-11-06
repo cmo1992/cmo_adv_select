@@ -103,7 +103,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
       }
     }
   }
-  dsm($its);
+  //dsm($its);
   return $its;
 }
 
@@ -126,6 +126,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
       }
     }
   }
+  dsm($its);
   return $its;
 }
 
