@@ -115,8 +115,9 @@ function ajax_seat_check($form, $form_state) {
     $form['submitted'][$cid]['#title_display'] = 'none';
     //form_set_error($form['submitted'][$cid]);
    $form['submitted'][$cid]['#title_display']['#description'] = 'You were to slow!! Please choose a different section';
+   return $form['submitted'][$cid]; //['#webform_component'];
   }
-  return $form['submitted'][$cid]; //['#webform_component'];
+  return; //['#webform_component'];
   //return "Hello Sean";
 }
 
