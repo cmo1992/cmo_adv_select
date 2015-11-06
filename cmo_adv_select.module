@@ -109,7 +109,7 @@ function ajax_seat_check($form, $form_state) {
       //dsm($select_string);
       $form['submitted'][$cid]['#options'] = $select_string;
       //dsm($form);
-      $form['#validate'] = array('cmo_adv_select_submit_validate');
+      //$form['#validate'] = array('cmo_adv_select_submit_validate');
       //form_set_error($form['submitted'][$cid]);
       $form['submitted'][$cid]['#webform_component']['extra']['description'] = t('You were to slow!! Please choose a different section');
     }
