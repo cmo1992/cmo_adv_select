@@ -165,7 +165,8 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
 function _cmo_adv_select_seat_check($valve){
   $its = array();
   foreach ($comps as $key => $component) {
-    if($component['#webform_component']['type'] === 'select') {
+    dsm($component);
+    if(isset($component['#webform_component']) && $component['#webform_component']['type'] === 'select') {
       $cid = $key;
       //dsm($cid);
       //Grab selectors string
