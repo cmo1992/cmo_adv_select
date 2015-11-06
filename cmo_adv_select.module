@@ -62,7 +62,7 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    dsm($form);
+    //dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
@@ -115,9 +115,9 @@ function ajax_seat_check($form, $form_state) {
       //dsm($form);
       $form['#validate'] = array('cmo_adv_select_submit_validate');
       //form_set_error($form['submitted'][$cid]);
-      $form['submitted'][$cid][] = t('You were to slow!! There are NO more seats avalible in the selected session!');
+      $form['submitted'][$cid]['#description'] = t('You were to slow!! Please choose a different section');
     }
-    return $form['submitted'][$cid]['#options'];  
+    return $form['submitted'][$cid];  
   }
 
 /**
