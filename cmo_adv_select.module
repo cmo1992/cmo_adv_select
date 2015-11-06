@@ -136,7 +136,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
       //Split into key => value
       foreach ($items as $item) {
         $tmp = explode('|', $item);
-        watchdog('cmo-php', 'made it here');
+        watchdog('cmo-php', 'made it here _cmo_adv_select_decode_session_string');
         $session = explode('_', $tmp[0]);
         if(count($session) == 2 && is_numeric($session[1])) {
           $values = array(
@@ -170,6 +170,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
     $selected_option = $submission->data[1];
     //dsm($selected_option);
     foreach ($its as $key => $value) {
+      watchdog('cmo-php', 'made it here _cmo_adv_select_pull_number_of_submissions');
       if($key == $selected_option[0]){
         $its[$key]['submission_count']++;
       }
@@ -186,6 +187,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
 function _cmo_adv_select_string_push_back(&$items) {
   $option = array();
   foreach ($items as $key => $value) {
+    watchdog('cmo-php', 'made it here _cmo_adv_select_string_push_back');
     $seats_left = intval($value['session_copasity']) - intval($value['submission_count']);
     //print "<h2>" . $seats_left . "</h2>";
     if($seats_left > 0) {
@@ -198,6 +200,7 @@ function _cmo_adv_select_string_push_back(&$items) {
 
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session){
   foreach ($items as $key => $value) {
+    watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
     if($key === $value_of_session && $value['submission_count'] > 0){
       return TRUE;
     }
