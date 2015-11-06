@@ -54,7 +54,7 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    //dsm($form);
+    dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
@@ -148,15 +148,14 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
     dsm($form);
     dsm($form_state);
     $cid = '';
-    $its = _cmo_adv_select_decode_session_string($form['#node']->webform['components'], $cid);
-    //dsm($its);
-    //dsm($cid);
-    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-    //dsm($items);
-    $select_string = _cmo_adv_select_string_push_back($items);
+    $hoo = _cmo_adv_select_seat_check($form['submitted']['sessions']['#value']);
     
   }
   //$foo = print_r($form_state);
   //watchdog("cmo", "session_selest_validate: " . $foo);
   return;
+}
+
+function _cmo_adv_select_seat_check($valve){
+  
 }
