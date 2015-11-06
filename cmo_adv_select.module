@@ -62,7 +62,7 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    //dsm($form);
+    dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
@@ -114,10 +114,10 @@ function ajax_seat_check($form, $form_state) {
       $form['submitted'][$cid]['#options'] = $select_string;
       //dsm($form);
       $form['#validate'] = array('cmo_adv_select_submit_validate');
-      form_set_error($form['submitted'][$cid]);
-      drupal_set_message(t('You were to slow!! There are NO more seats avalible in the selected session!'), 'error');
+      //form_set_error($form['submitted'][$cid]);
+      $form['submitted'][$cid][] = t('You were to slow!! There are NO more seats avalible in the selected session!');
     }
-    return $form['edit-submitted-sessions'];  
+    return $form['submitted'][$cid]['#options'];  
   }
 
 /**
