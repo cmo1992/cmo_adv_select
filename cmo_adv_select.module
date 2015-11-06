@@ -4,6 +4,7 @@
  * @file
  * Advanced Webform Select Option
  */
+
 /**
  * Implements hook_help().
  */
@@ -12,9 +13,9 @@ function cmo_adv_select_help($path, $arg) {
   switch ($path) {
     case 'admin/config/development/cmo_adv_select' :
       $output .= '<p>' . t('Add URLs for sign up forms that use a select ' .
-        'option for the sessions. The options will have to be formatted ' .
-        '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
-        '</p>';
+              'option for the sessions. The options will have to be formatted ' .
+              '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
+          '</p>';
       break;
   }
   return $output;
@@ -27,12 +28,12 @@ function cmo_adv_select_menu() {
   $items = array();
   // Admin menue
   $items['admin/config/development/cmo_adv_select'] = array(
-      'title' => 'CMO\'s Advanced Select' ,
-      'description' => 'Add URLs for sign up forms that use a select option for the sessions',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('cmo_adv_select_admin_settings'),
-      'access arguments' => array('administer Advanced Select Settings'),
-      'file' => 'cmo_adv_select.admin.inc',
+    'title' => 'CMO\'s Advanced Select',
+    'description' => 'Add URLs for sign up forms that use a select option for the sessions',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cmo_adv_select_admin_settings'),
+    'access arguments' => array('administer Advanced Select Settings'),
+    'file' => 'cmo_adv_select.admin.inc',
   );
   // Check if seat is avalable.
   $items['ajax_seat_check'] = array(
@@ -60,8 +61,8 @@ function cmo_adv_select_permission() {
 /**
  * Implements hook_form_alter().
  */
-function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
-  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
+function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#form_id'] == 'webform_client_form_5' && isset($form['submitted'])) {
     dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
@@ -79,11 +80,11 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
       'callback' => 'ajax_seat_check',
       // 'wrapper' is the HTML id of the page element that will be replaced.
       'wrapper' => 'edit-submitted-sessions',
-      // There are also several optional keys - see ajax_example_autocheckboxes
-      // below for details on 'method', 'effect' and 'speed' and
-      // ajax_example_dependent_dropdown for 'event'.
+        // There are also several optional keys - see ajax_example_autocheckboxes
+        // below for details on 'method', 'effect' and 'speed' and
+        // ajax_example_dependent_dropdown for 'event'.
     );
-    
+
     //dsm($form);
     //$form['#validate'] = array('cmo_adv_select_submit_validate');
   }
@@ -95,28 +96,28 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
  * @param type $form_state
  */
 function ajax_seat_check($form, $form_state) {
-    $cid = '';
-    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
-    //dsm($its);
-    //dsm($cid);
-    $value_of_session = $form['submitted'][$cid]['#value'];
-    //watchdog('cmo-php', $form['submitted'][$cid]['#value']);
-    //dsm($value_of_session);
-    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-    //dsm($items);
-    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
-    if($valid_registration == false){
-      $select_string = _cmo_adv_select_string_push_back($items);
-      //dsm($select_string);
-      $form['submitted'][$cid]['#options'] = $select_string;
-      //dsm($form);
-      //$form['#validate'] = array('cmo_adv_select_submit_validate');
-      //form_set_error($form['submitted'][$cid]);
-      $form['submitted'][$cid]['#webform_component']['extra']['description'] = t('You were to slow!! Please choose a different section');
-    }
-    //return $form['submitted'][$cid];//['#webform_component'];
-    return "Hello Sean";
+  $cid = '';
+  $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+  //dsm($its);
+  //dsm($cid);
+  $value_of_session = $form['submitted'][$cid]['#value'];
+  watchdog('cmo-php-session', $form['submitted'][$cid]['#value']);
+  //dsm($value_of_session);
+  $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+  //dsm($items);
+  $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+  if ($valid_registration == false) {
+    $select_string = _cmo_adv_select_string_push_back($items);
+    //dsm($select_string);
+    $form['submitted'][$cid]['#options'] = $select_string;
+    //dsm($form);
+    //$form['#validate'] = array('cmo_adv_select_submit_validate');
+    //form_set_error($form['submitted'][$cid]);
+    $form['submitted'][$cid]['#webform_component']['extra']['description'] = t('You were to slow!! Please choose a different section');
   }
+  return $form['submitted'][$cid]; //['#webform_component'];
+  //return "Hello Sean";
+}
 
 /**
  * Helper method to decode the session strings.
@@ -127,7 +128,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
   $its = array();
   foreach ($comps as $key => $component) {
     //dsm($component);
-    if(isset($component['#webform_component']) && $component['#webform_component']['type'] === 'select') {
+    if (isset($component['#webform_component']) && $component['#webform_component']['type'] === 'select') {
       $cid = $key;
       //dsm($cid);
       //Grab selectors string
@@ -139,15 +140,16 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
         $tmp = explode('|', $item);
         //watchdog('cmo-php', 'made it here _cmo_adv_select_decode_session_string');
         $session = explode('_', $tmp[0]);
-        if(count($session) == 2 && is_numeric($session[1])) {
+        if (count($session) == 2 && is_numeric($session[1])) {
           $values = array(
-            'session_name' => $session[0], 
-            'session_copasity' => intval($session[1]), 
-            'session_details' => $tmp[1], 
+            'session_name' => $session[0],
+            'session_copasity' => intval($session[1]),
+            'session_details' => $tmp[1],
             'submission_count' => 0
           );
           $its[$tmp[0]] = $values;
-        } else {
+        }
+        else {
           break;
         }
       }
@@ -172,8 +174,8 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
     //dsm($selected_option);
     foreach ($its as $key => $value) {
       //watchdog('cmo-php', 'made it here _cmo_adv_select_pull_number_of_submissions');
-      if($key == $selected_option[0]){
-        $its[$key]['submission_count']++;
+      if ($key == $selected_option[0]) {
+        $its[$key]['submission_count'] ++;
       }
     }
   }
@@ -191,7 +193,7 @@ function _cmo_adv_select_string_push_back(&$items) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_string_push_back');
     $seats_left = intval($value['session_copasity']) - intval($value['submission_count']);
     //print "<h2>" . $seats_left . "</h2>";
-    if($seats_left > 0) {
+    if ($seats_left > 0) {
       $session_details = substr($value['session_details'], 0, strlen($value['session_details']) - 1);
       $option[$key] = $session_details . t(". There are ") . $seats_left . t(" seats left\n");
     }
@@ -199,10 +201,10 @@ function _cmo_adv_select_string_push_back(&$items) {
   return $option;
 }
 
-function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session){
+function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
   foreach ($items as $key => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
-    if($key === $value_of_session && $value['submission_count'] > 0){
+    if ($key === $value_of_session && $value['submission_count'] > 0) {
       return TRUE;
     }
   }
