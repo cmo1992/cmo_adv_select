@@ -24,15 +24,23 @@ function cmo_adv_select_help($path, $arg) {
  * Implements hook_menu().
  */
 function cmo_adv_select_menu() {
-  $items = array(
-    'admin/config/development/cmo_adv_select' => array(
+  $items = array();
+  // Admin menue
+  $items['admin/config/development/cmo_adv_select'] = array(
       'title' => 'CMO\'s Advanced Select' ,
       'description' => 'Add URLs for sign up forms that use a select option for the sessions',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('cmo_adv_select_admin_settings'),
       'access arguments' => array('administer Advanced Select Settings'),
       'file' => 'cmo_adv_select.admin.inc',
-   ),
+  );
+  // Check if seat is avalable.
+  $items['ajax_seat_check'] = array(
+    'page callback' => 'ajax_seat_check',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ajax_seat_check.inc',
   );
   return $items;
 }
@@ -64,9 +72,56 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
     $select_string = _cmo_adv_select_string_push_back($items);
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
+    // Add ajax call back
+    $form['submitted'][$cid]['#ajax'] = array(
+      // #ajax has two required keys: callback and wrapper.
+      // 'callback' is a function that will be called when this element changes.
+      'callback' => 'ajax_seat_check',
+      // 'wrapper' is the HTML id of the page element that will be replaced.
+      'wrapper' => 'edit-submitted-sessions',
+      // There are also several optional keys - see ajax_example_autocheckboxes
+      // below for details on 'method', 'effect' and 'speed' and
+      // ajax_example_dependent_dropdown for 'event'.
+    );
+    
     //dsm($form);
     $form['#validate'] = array('cmo_adv_select_submit_validate');
   }
+}
+
+/**
+ * 
+ * @param type $form
+ * @param type $form_state
+ */
+function ajax_seat_check($form, $form_state) {
+  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
+    //dsm($form);
+    //dsm($form_state);
+    $cid = '';
+    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+    //dsm($its);
+    //dsm($cid);
+    $value_of_session = $form['submitted'][$cid]['#value'];
+    dsm($value_of_session);
+    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+    //dsm($items);
+    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+    if($valid_registration)
+      dsm('true');
+    else
+      dsm('false');
+    if($valid_registration == false){
+      $select_string = _cmo_adv_select_string_push_back($items);
+      //dsm($select_string);
+      $form['submitted'][$cid]['#options'] = $select_string;
+      //dsm($form);
+      $form['#validate'] = array('cmo_adv_select_submit_validate');
+      form_set_error($form['submitted'][$cid]);
+      drupal_set_message(t('You were to slow!! There are NO more seats avalible in the selected session!'), 'error');
+    }
+  }
+  return $form['edit-submitted-sessions'];
 }
 
 /**
@@ -146,41 +201,41 @@ function _cmo_adv_select_string_push_back(&$items) {
   }
   return $option;
 }
-
-/**
- * Implements drupal_validate_form.
- */
-function cmo_adv_select_submit_validate($form, &$form_state) {
-
-  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    //dsm($form);
-    //dsm($form_state);
-    $cid = '';
-    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
-    //dsm($its);
-    //dsm($cid);
-    $value_of_session = $form['submitted'][$cid]['#value'];
-    dsm($value_of_session);
-    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-    //dsm($items);
-    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
-    if($valid_registration)
-      dsm('true');
-    else
-      dsm('false');
-    if($valid_registration == false){
-      $select_string = _cmo_adv_select_string_push_back($items);
-      //dsm($select_string);
-      $form['submitted'][$cid]['#options'] = $select_string;
-      //dsm($form);
-      $form['#validate'] = array('cmo_adv_select_submit_validate');
-      form_set_error($form['submitted'][$cid]);
-      drupal_set_message(t('You were to slow!! There are NO more seats avalible in the selected session!'), 'error');
-    }
-  }
-  
-  return;
-}
+//
+///**
+// * Implements drupal_validate_form.
+// */
+//function cmo_adv_select_submit_validate($form, &$form_state) {
+//
+//  if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
+//    //dsm($form);
+//    //dsm($form_state);
+//    $cid = '';
+//    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+//    //dsm($its);
+//    //dsm($cid);
+//    $value_of_session = $form['submitted'][$cid]['#value'];
+//    dsm($value_of_session);
+//    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+//    //dsm($items);
+//    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+//    if($valid_registration)
+//      dsm('true');
+//    else
+//      dsm('false');
+//    if($valid_registration == false){
+//      $select_string = _cmo_adv_select_string_push_back($items);
+//      //dsm($select_string);
+//      $form['submitted'][$cid]['#options'] = $select_string;
+//      //dsm($form);
+//      $form['#validate'] = array('cmo_adv_select_submit_validate');
+//      form_set_error($form['submitted'][$cid]);
+//      drupal_set_message(t('You were to slow!! There are NO more seats avalible in the selected session!'), 'error');
+//    }
+//  }
+//  
+//  return;
+//}
 
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session){
   foreach ($items as $key => $value) {
