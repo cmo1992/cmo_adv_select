@@ -112,9 +112,9 @@ function ajax_seat_check($form, $form_state) {
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
     //dsm($form);
-    //$form['#validate'] = array('cmo_adv_select_submit_validate');
+    $form['submitted'][$cid]['#title_display'] = t('none');
     //form_set_error($form['submitted'][$cid]);
-    drupal_set_message(t('You were to slow!! Please choose a different section'), 'warning');
+   $form['submitted'][$cid]['#title_display']['#description'] = t('You were to slow!! Please choose a different section');
   }
   return $form['submitted'][$cid]; //['#webform_component'];
   //return "Hello Sean";
