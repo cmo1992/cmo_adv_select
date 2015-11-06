@@ -148,7 +148,7 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
     dsm($form);
     dsm($form_state);
     $cid = '';
-    $its = _cmo_adv_select_decode_session_string($form['submitted']['sessions'], $cid);
+    $its = _cmo_adv_select_decode_session_string($form['#node']->webform['components'], $cid);
     //dsm($its);
     //dsm($cid);
     $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
