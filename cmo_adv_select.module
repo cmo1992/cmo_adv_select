@@ -136,6 +136,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
       //Split into key => value
       foreach ($items as $item) {
         $tmp = explode('|', $item);
+        watchdog('cmo-php', 'made it here');
         $session = explode('_', $tmp[0]);
         if(count($session) == 2 && is_numeric($session[1])) {
           $values = array(
