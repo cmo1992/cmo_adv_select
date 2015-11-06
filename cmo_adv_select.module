@@ -104,10 +104,6 @@ function ajax_seat_check($form, $form_state) {
     $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
     //dsm($items);
     $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
-    if($valid_registration)
-      watchdog('cmo-php', 'true');
-    else
-      watchdog('cmo-php', 'false');
     if($valid_registration == false){
       $select_string = _cmo_adv_select_string_push_back($items);
       //dsm($select_string);
