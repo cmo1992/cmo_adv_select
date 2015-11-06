@@ -80,7 +80,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
     //dsm($component);
     if(isset($component['#webform_component']) && $component['#webform_component']['type'] === 'select') {
       $cid = $key;
-      //dsm($cid);
+      dsm($cid);
       //Grab selectors string
       $extra_items = $component['#webform_component']['extra']['items'];
       //Split into options
