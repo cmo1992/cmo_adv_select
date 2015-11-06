@@ -112,12 +112,12 @@ function ajax_seat_check($form, $form_state) {
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
     //dsm($form);
-    $form['submitted'][$cid]['#title_display'] = 'none';
     //form_set_error($form['submitted'][$cid]);
     $form['submitted'][$cid]['#description'] = 'You were to slow!! Please choose a different section';
   } else {
     $form['submitted'][$cid]['#description'] = '';
   }
+    $form['submitted'][$cid]['#title_display'] = 'none';
   return $form['submitted'][$cid]; //['#webform_component'];
   //return "Hello Sean";
 }
