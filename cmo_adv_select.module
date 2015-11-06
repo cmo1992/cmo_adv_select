@@ -63,7 +63,7 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
   if ($form['#form_id'] == 'webform_client_form_5' && isset($form['submitted'])) {
-    dsm($form);
+    //dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
