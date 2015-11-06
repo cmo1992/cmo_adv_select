@@ -105,7 +105,7 @@ function ajax_seat_check($form, $form_state) {
   //dsm($value_of_session);
   $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
   //dsm($items);
-  watchdog('cmo-php-its', print_r($items)); 
+  //watchdog('cmo-php-its', print_r($items)); 
   $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
   if ($valid_registration == false) {
     $select_string = _cmo_adv_select_string_push_back($items);
@@ -205,7 +205,8 @@ function _cmo_adv_select_string_push_back(&$items) {
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
   foreach ($items as $key => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
-    if ($key === $value_of_session && $value['submission_count'] > 0) {
+    $total_left = $value['submission_copasity'] - $value['submission_count'];
+    if ($key == $value_of_session && $total_left > 0) {
       return TRUE;
     }
   }
