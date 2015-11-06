@@ -77,7 +77,8 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
 function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
   $its = array();
   foreach ($comps as $key => $component) {
-    if($component['#webform_component']['type'] === 'select') {
+    dsm($component);
+    if(isset($component['#webform_component']) && $component['#webform_component']['type'] === 'select') {
       $cid = $key;
       //dsm($cid);
       //Grab selectors string
