@@ -172,13 +172,15 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   //module_load_include('inc', 'webform', 'include/submissions');
   $sub = webform_get_submissions($nid);
   //dsm($sub);
-  foreach ($sub as $submission) {
-    $selected_option = $submission->data[1];
-    //dsm($selected_option);
-    foreach ($its as $key => $value) {
-      //watchdog('cmo-php', 'made it here _cmo_adv_select_pull_number_of_submissions');
-      if ($key == $selected_option[0]) {
-        $its[$key]['submission_count'] ++;
+  if(count($sub) > 0) {
+    foreach ($sub as $submission) {
+      $selected_option = $submission->data[1];
+      //dsm($selected_option);
+      foreach ($its as $key => $value) {
+        //watchdog('cmo-php', 'made it here _cmo_adv_select_pull_number_of_submissions');
+        if ($key == $selected_option[0]) {
+          $its[$key]['submission_count'] ++;
+        }
       }
     }
   }
