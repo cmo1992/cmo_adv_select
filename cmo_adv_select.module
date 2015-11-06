@@ -205,7 +205,7 @@ function _cmo_adv_select_string_push_back(&$items) {
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
   foreach ($items as $key => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
-    $total_left = $value['submission_copasity'] - $value['submission_count'];
+    $total_left = intval($value['session_copasity']) - intval($value['submission_count']);
     if ($key == $value_of_session && $total_left > 0) {
       return TRUE;
     }
