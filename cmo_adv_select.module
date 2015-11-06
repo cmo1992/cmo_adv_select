@@ -62,7 +62,7 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
   if($form['#form_id'] ==  'webform_client_form_5' && isset($form['submitted'])){
-    //dsm($form);
+    dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
@@ -78,7 +78,7 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id){
       // 'callback' is a function that will be called when this element changes.
       'callback' => 'ajax_seat_check',
       // 'wrapper' is the HTML id of the page element that will be replaced.
-      'wrapper' => 'webform-component--sessions',
+      'wrapper' => 'edit-submitted-sessions',
       // There are also several optional keys - see ajax_example_autocheckboxes
       // below for details on 'method', 'effect' and 'speed' and
       // ajax_example_dependent_dropdown for 'event'.
