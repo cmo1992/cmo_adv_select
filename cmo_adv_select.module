@@ -98,10 +98,11 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
 function ajax_seat_check($form, $form_state) {
   $cid = '';
   $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+  watchdog('cmo-php-its', print_r($its));  
   //dsm($its);
   //dsm($cid);
   $value_of_session = $form['submitted'][$cid]['#value'];
-  watchdog('cmo-php-session', $form['submitted'][$cid]['#value']);
+  //watchdog('cmo-php-session', $form['submitted'][$cid]['#value']);
   //dsm($value_of_session);
   $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
   //dsm($items);
