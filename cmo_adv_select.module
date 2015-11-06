@@ -164,6 +164,7 @@ function cmo_adv_select_submit_validate($form, &$form_state) {
     $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
     //dsm($items);
     $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+    dsm($valid_registration);
     if($valid_registration == false){
       $select_string = _cmo_adv_select_string_push_back($items);
       //dsm($select_string);
