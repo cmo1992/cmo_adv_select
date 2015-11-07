@@ -23,9 +23,9 @@ function cmo_adv_select_admin_settings() {
     '#type' => 'textarea',
     '#title' => t('Advanced Select Pages'),
     '#description' => t('Add Node id and a descriptive name in a "nid|' .
-        'disctiptive name" (ex. 2523|Drupal 101 - Nov. 10th 2015). One entry ' .
-        'per line and the nodes listed will get the advanced select applied ' .
-        'to them.'),
+        'disctiptive name|custom error message" (ex. 2523|Drupal 101 - Nov. ' .
+        '10th 2015|Sorry select a different section). One entry per line and ' .
+        'the nodes listed will get the advanced select applied to them.'),
     
     '#default_value' => variable_get('cmo_adv_select_nids'),
     '#rows' => 10,

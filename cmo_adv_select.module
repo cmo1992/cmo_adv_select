@@ -9,16 +9,21 @@
  * Implements hook_help().
  */
 function cmo_adv_select_help($path, $arg) {
-  $output = '';
+  $out = '';
   switch ($path) {
     case 'admin/config/development/cmo_adv_select' :
-      $output .= '<p>' . t('Add URLs for sign up forms that use a select ' .
-              'option for the sessions. The options will have to be formatted ' .
-              '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
+      $out .= '<p>' . t('Add URLs for sign up forms that use a select ' .
+          'option for the sessions. The options will have to be formatted ' .
+          '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
+          '</p><p>' . t('Add Node id and a descriptive name in a "nid|' .
+          'disctiptive name|custom error message" (ex. 2523|Drupal 101 - ' .
+          'Nov. 10th 2015|Sorry select a different section). One entry per ' .
+          'line and the nodes listed will get the advanced select applied to ' .
+          'them.') .
           '</p>';
       break;
   }
-  return $output;
+  return $out;
 }
 
 /**
@@ -108,8 +113,7 @@ function ajax_seat_check($form, $form_state) {
       //dsm($select_string);
       $form['submitted'][$cid]['#options'] = $select_string;
       //dsm($error_msg);
-      $form['submitted'][$cid]['#description'] = 
-          $nodes[$form['#node']->nid]['error_msg'];
+      $form['submitted'][$cid]['#description'] = $nodes[$form['#node']->nid]['error_msg'];
     }
     else {
       $form['submitted'][$cid]['#description'] = '';
@@ -165,7 +169,7 @@ function ajax_seat_check($form, $form_state) {
  * @param type $nid
  * @param type $its
  * @return type
- */ 
+ */
 function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   $sub = webform_get_submissions($nid);
   if (count($sub) > 0) {
