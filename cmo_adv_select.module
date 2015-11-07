@@ -102,7 +102,7 @@ function ajax_seat_check($form, $form_state) {
     $select_string = _cmo_adv_select_string_push_back($items);
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
-    //dsm($form);
+    dsm($form['#node']->nid);
     $error_msg = _cmo_adv_select_load_sessions($form['#node']->nid);
     dsm($error_msg);
     $form['submitted'][$cid]['#description'] = 'You were to slow!! ' . 
