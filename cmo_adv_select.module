@@ -89,40 +89,48 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
  * @param type $form_state
  */
 function ajax_seat_check($form, $form_state) {
-  $cid = '';
-  $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid); 
-  //dsm($its);
-  //dsm($cid);
-  $value_of_session = $form['submitted'][$cid]['#value'];
-  //dsm($value_of_session);
-  $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-  //dsm($items);
-  $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
-  if ($valid_registration == false) {
-    $select_string = _cmo_adv_select_string_push_back($items);
-    //dsm($select_string);
-    $form['submitted'][$cid]['#options'] = $select_string;
-    watchdog('cmo-php', $form['#node']->nid);
-    $error_msg = _cmo_adv_select_load_sessions($form['#node']->nid);
-    dsm($error_msg);
-    $form['submitted'][$cid]['#description'] = 'You were to slow!! ' . 
-        'Please choose a different section';
-  } else {
-    $form['submitted'][$cid]['#description'] = '';
+  // Load configured node ids from variable
+  $nodes = _cmo_adv_select_load_sessions();
+  //dsm($form);
+  //dsm($nodes);
+  if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
+    $cid = '';
+    $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
+    //dsm($its);
+    //dsm($cid);
+    $value_of_session = $form['submitted'][$cid]['#value'];
+    //dsm($value_of_session);
+    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
+    //dsm($items);
+    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+    if ($valid_registration == false) {
+      $select_string = _cmo_adv_select_string_push_back($items);
+      //dsm($select_string);
+      $form['submitted'][$cid]['#options'] = $select_string;
+      watchdog('cmo-php', $form['#node']->nid);
+
+      dsm($error_msg);
+      $form['submitted'][$cid]['#description'] = 'You were to slow!! ' .
+          'Please choose a different section';
+    }
+    else {
+      $form['submitted'][$cid]['#description'] = '';
+    }
+
+    return $form['submitted'][$cid];
   }
-  return $form['submitted'][$cid];
+  return;
 }
 
 /**
  * Helper method to decode the session strings.
- * @param type $comps
+ * @param  type $c omps
  * @return type
- */
-function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
+ */ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
   $its = array();
   foreach ($comps as $key => $component) {
     //dsm($component);
-    if (isset($component['#webform_component']) && 
+    if (isset($component['#webform_component']) &&
         $component['#webform_component']['type'] === 'select') {
       $cid = $key;
       //dsm($cid);
@@ -134,7 +142,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
       foreach ($items as $item) {
         $tmp = explode('|', $item);
         $session = explode('_', $tmp[0]);
-        if (count($session) == 2 && is_numeric($session[1])) {
+        if (count($session) == 2 && is_numeric($session [1])) {
           $values = array(
             'session_name' => $session[0],
             'session_copasity' => intval($session[1]),
@@ -150,6 +158,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
     }
   }
   //dsm($its);
+
   return $its;
 }
 
@@ -158,14 +167,15 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
  * @param type $nid
  * @param type $its
  * @return type
- */
+ */ 
 function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   $sub = webform_get_submissions($nid);
-  if(count($sub) > 0) {
-    foreach($sub as $submission) {
-      foreach($submission->data as $element) {
-        if(isset($its[$element[0]])){
-          $its[$element[0]]['submission_count']++;
+  if (count($sub) > 0) {
+    foreach ($sub as $submission) {
+      foreach ($submission->data as $element) {
+        if (isset($its[$element[0]])) {
+          $its[$element[0]][
+              'submission_count'] ++;
         }
       }
     }
@@ -174,34 +184,34 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
 }
 
 /**
- * Helper method to create the push bach string to the form.
+ * Helper method to create the push bach string to the form .
  * @param type $items
  */
 function _cmo_adv_select_string_push_back(&$items) {
   $option = array();
   foreach ($items as $key => $value) {
-    $seats_left = intval($value['session_copasity']) - 
-                  intval($value['submission_count']);
+    $seats_left = intval($value['session_copasity']) -
+        intval($value['submission_count']);
     if ($seats_left > 0) {
-      $session_details = substr($value['session_details'], 0, 
-          strlen($value['session_details']) - 1);
-      $option[$key] = $session_details . t(". There are ") . $seats_left . 
+      $session_details = substr($value['session_details'], 0, strlen($value['session_details']) - 1);
+      $option[$key] = $session_details . t(". There are ") . $seats_left .
           t(" seats left\n");
     }
   }
   return $option;
 }
+
 /**
  * Helper function that checks if the selected session has seats 
  * left in it or not.
  * @param type $items
- * @param type $value_of_session
+ * @param type $v alue_of_ session
  * @return boolean
  */
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
   foreach ($items as $key => $value) {
-    $total_left = intval($value['session_copasity']) - 
-                  intval($value['submission_count']);
+    $total_left = intval($value['session_copasity']) -
+        intval($value['submission_count']);
     if ($key == $value_of_session && $total_left > 0) {
       return TRUE;
     }
@@ -218,20 +228,20 @@ function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
  */
 function _cmo_adv_select_load_sessions($nid = NULL) {
   static $sessions;
-  $default_error_msg = 'You were to slow!! ' . 
-        'Please choose a different section';
-  if(!isset($sessions)) {
-    $sessions  = array();
+  $default_error_msg = 'You were to slow!! ' .
+      'Please choose a different section';
+  if (!isset($sessions)) {
+    $sessions = array();
     $results = explode(PHP_EOL, variable_get('cmo_adv_select_nids'));
     foreach ($results as $session) {
       $tmp = explode('|', $session);
       $sessions[$tmp[0]] = array(
         'title' => $tmp[1],
-        'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg );
+        'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg);
     }
   }
   dsm($nid);
-  if (isset($sessions[$nid]) ) {
+  if (isset($sessions[$nid])) {
     return $sessions[$nid];
   }
   else {
