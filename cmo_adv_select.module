@@ -55,8 +55,8 @@ function cmo_adv_select_permission() {
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
   $nodes = _cmo_adv_select_load_sessions();
-  dsm($form);
-  dsm($nodes);
+  //dsm($form);
+  //dsm($nodes);
   if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
     //dsm($form);
     $cid = '';
