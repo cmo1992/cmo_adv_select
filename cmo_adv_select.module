@@ -77,7 +77,7 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
       // 'callback' is a function that will be called when this element changes.
       'callback' => 'ajax_seat_check',
       // 'wrapper' is the HTML id of the page element that will be replaced.
-      'wrapper' => 'edit-submitted-sessions',
+      'wrapper' => 'session-ajax-replace',
         // There are also several optional keys - see ajax_example_autocheckboxes
         // below for details on 'method', 'effect' and 'speed' and
         // ajax_example_dependent_dropdown for 'event'.
