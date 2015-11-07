@@ -108,8 +108,8 @@ function ajax_seat_check($form, $form_state) {
       //dsm($select_string);
       $form['submitted'][$cid]['#options'] = $select_string;
       //dsm($error_msg);
-      $form['submitted'][$cid]['#description'] = 'You were to slow!! ' .
-          'Please choose a different section';
+      $form['submitted'][$cid]['#description'] = 
+          $nodes[$form['#node']->nid]['error_msg'];
     }
     else {
       $form['submitted'][$cid]['#description'] = '';
@@ -226,8 +226,8 @@ function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
  */
 function _cmo_adv_select_load_sessions($nid = NULL) {
   static $sessions;
-  $default_error_msg = 'You were to slow!! ' .
-      'Please choose a different section';
+  $default_error_msg = t('You were to slow!! ' .
+      'Please choose a different section');
   if (!isset($sessions)) {
     $sessions = array();
     $results = explode(PHP_EOL, variable_get('cmo_adv_select_nids'));
