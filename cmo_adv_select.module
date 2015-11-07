@@ -226,6 +226,7 @@ function _cmo_adv_select_load_sessions($casid = NULL) {
       $sessions[$tmp[0]] = $tmp[1];
     }
   }
+  dsm($sessions);
   if (is_numeric($casid)) {
     return $sessions[$casid];
   }
