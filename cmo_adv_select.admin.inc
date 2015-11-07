@@ -22,7 +22,7 @@ function cmo_adv_select_admin_settings() {
   $form['settings']['visibility_urls'] = array(
     '#type' => 'textarea',
     '#title' => t('Advanced Select Pages'),
-    '#description' => t('Add URLs that need the advanced select applied to.'),
+    '#description' => t('Add Node id and a descriptive name in a "nid|disctiptive name" (ex. 2523|Drupal 101 - Nov. 10th 2015). One entry per line and the nodes listed will get the advanced select applied to them.'),
     '#default_value' => variable_get('cmo_adv_select_nids'),
     '#rows' => 10,
   );
@@ -37,7 +37,7 @@ function cmo_adv_select_admin_settings() {
 }
 
 function cmo_adv_select_save($form, &$form_state) {
-  dsm($form_state);
+  //dsm($form_state);
   variable_set('cmo_adv_select_nids', $form_state['values']['visibility_urls']);
   drupal_set_message(t('Your new session form has been saved.'));
   $form_state['redirect'] = 'admin/config/development/cmo_adv_select';
