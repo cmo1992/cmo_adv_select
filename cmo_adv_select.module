@@ -166,7 +166,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
 function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   //module_load_include('inc', 'webform', 'include/submissions');
   $sub = webform_get_submissions($nid);
-  dsm($sub);
+  //dsm($sub);
   if(count($sub) > 0) {
     foreach ($sub as $submission) {
       $selected_option = $submission->data[1];
@@ -207,7 +207,7 @@ function _cmo_adv_select_string_push_back(&$items) {
  * @return boolean
  */
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
-  foreach ($items as $key_cmo_adv_select_load_sessions => $value) {
+  foreach ($items as $key => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
     $total_left = intval($value['session_copasity']) - intval($value['submission_count']);
     if ($key == $value_of_session && $total_left > 0) {
