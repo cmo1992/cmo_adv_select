@@ -54,10 +54,10 @@ function cmo_adv_select_permission() {
  * Implements hook_form_alter().
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
-  $nodes = @_cmo_adv_select_load_sessions($form['#node']->nid);
-  dsm($nodes);
+  $nodes = _cmo_adv_select_load_sessions();
+  //dsm($nodes);
   if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
-    dsm($form);
+    //dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     //dsm($its);
@@ -226,9 +226,9 @@ function _cmo_adv_select_load_sessions($casid = NULL) {
       $sessions[$tmp[0]] = $tmp[1];
     }
   }
-  dsm($sessions);
+  //dsm($sessions);
   if (is_numeric($casid)) {
-    return $sessions[$casid];
+    return @$sessions[$casid];
   }
   else {
     return $sessions;
