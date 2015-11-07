@@ -31,7 +31,6 @@ function cmo_adv_select_help($path, $arg) {
  */
 function cmo_adv_select_menu() {
   $items = array();
-  // Admin menue
   $items['admin/config/development/cmo_adv_select'] = array(
     'title' => 'CMO\'s Advanced Select',
     'description' => 'Add URLs for sign up forms that use a select option for the sessions',
@@ -61,28 +60,23 @@ function cmo_adv_select_permission() {
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
   // Load configured node ids from variable
   $nodes = _cmo_adv_select_load_sessions();
-  //dsm($form);
-  //dsm($nodes);
   if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
-    //dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
-    //dsm($its);
-    //dsm($cid);
-    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-    //dsm($items);
+    $items = _cmo_adv_select_pull_number_of_submissions(
+        $form['#node']->nid, $its);
     $select_string = _cmo_adv_select_string_push_back($items);
-    //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
     // Set Div with ID around Form element that will get updated by AJAX
-    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace">';
+    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace-' . 
+        $cid . '">';
     $form['submitted'][$cid]['#suffix'] = '</div>';
     // Add ajax call back
     $form['submitted'][$cid]['#ajax'] = array(
       // 'callback' is a function that will be called when this element changes.
       'callback' => 'ajax_seat_check',
       // 'wrapper' is the HTML id of the page element that will be replaced.
-      'wrapper' => 'session-ajax-replace',
+      'wrapper' => 'session-ajax-replace-' . $cid,
     );
   }
 }
@@ -96,24 +90,19 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
 function ajax_seat_check($form, $form_state) {
   // Load configured node ids from variable
   $nodes = _cmo_adv_select_load_sessions();
-  //dsm($form);
-  //dsm($nodes);
   if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
-    //dsm($its);
-    //dsm($cid);
     $value_of_session = $form['submitted'][$cid]['#value'];
-    //dsm($value_of_session);
-    $items = _cmo_adv_select_pull_number_of_submissions($form['#node']->nid, $its);
-    //dsm($items);
-    $valid_registration = _cmo_adv_select_is_valid_registration($items, $value_of_session);
+    $items = _cmo_adv_select_pull_number_of_submissions(
+        $form['#node']->nid, $its);
+    $valid_registration = _cmo_adv_select_is_valid_registration(
+        $items, $value_of_session);
     if ($valid_registration == false) {
       $select_string = _cmo_adv_select_string_push_back($items);
-      //dsm($select_string);
       $form['submitted'][$cid]['#options'] = $select_string;
-      //dsm($error_msg);
-      $form['submitted'][$cid]['#description'] = $nodes[$form['#node']->nid]['error_msg'];
+      $form['submitted'][$cid]['#description'] = 
+          $nodes[$form['#node']->nid]['error_msg'];
     }
     else {
       $form['submitted'][$cid]['#description'] = '';
@@ -131,11 +120,9 @@ function ajax_seat_check($form, $form_state) {
  */ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
   $its = array();
   foreach ($comps as $key => $component) {
-    //dsm($component);
     if (isset($component['#webform_component']) &&
         $component['#webform_component']['type'] === 'select') {
       $cid = $key;
-      //dsm($cid);
       //Grab selectors string
       $extra_items = $component['#webform_component']['extra']['items'];
       //Split into options
@@ -159,8 +146,6 @@ function ajax_seat_check($form, $form_state) {
       }
     }
   }
-  //dsm($its);
-
   return $its;
 }
 
@@ -242,7 +227,6 @@ function _cmo_adv_select_load_sessions($nid = NULL) {
         'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg);
     }
   }
-  //dsm($nid);
   if (isset($sessions[$nid])) {
     return $sessions[$nid];
   }

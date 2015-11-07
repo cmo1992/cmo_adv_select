@@ -5,20 +5,10 @@
  * CMO's Advanced Select Module
  */
 /**
- * 
+ * Admin settings form.
  */
 function cmo_adv_select_admin_settings() {
   $form = array();
-
-  // This is the field fieldset.
-//  $form['settings'] = array(
-//    '#type' => 'fieldset',
-//    '#title' => t("CMO's Advanced Select Mod"),
-//    '#collapsible' => TRUE,
-//    '#description' => t('Add URLs for sign up forms that use a select ' .
-//      'option for the sessions. The options will have to be formatted ' .
-//      '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"'),
-//  );
   $form['settings']['visibility_urls'] = array(
     '#type' => 'textarea',
     '#title' => t('Advanced Select Pages'),
@@ -40,8 +30,12 @@ function cmo_adv_select_admin_settings() {
   return $form;
 }
 
+/**
+ * Saves the nodes that are configured to use the module.
+ * @param type $form
+ * @param array $form_state
+ */
 function cmo_adv_select_save($form, &$form_state) {
-  //dsm($form_state);
   variable_set('cmo_adv_select_nids', $form_state['values']['visibility_urls']);
   drupal_set_message(t('Your new session form has been saved.'));
   $form_state['redirect'] = 'admin/config/development/cmo_adv_select';
