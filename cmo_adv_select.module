@@ -68,6 +68,9 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
     $select_string = _cmo_adv_select_string_push_back($items);
     //dsm($select_string);
     $form['submitted'][$cid]['#options'] = $select_string;
+    
+    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace">';
+    $form['submitted'][$cid]['#suffix'] = '</div>';
     // Add ajax call back
     $form['submitted'][$cid]['#ajax'] = array(
       // #ajax has two required keys: callback and wrapper.
@@ -112,7 +115,7 @@ function ajax_seat_check($form, $form_state) {
   } else {
     $form['submitted'][$cid]['#description'] = '';
   }
-    $form['submitted'][$cid]['#title_display'] = 'none';
+    //$form['submitted'][$cid]['#title_display'] = 'none';
   return $form['submitted'][$cid]; //['#webform_component'];
   //return "Hello Sean";
 }
