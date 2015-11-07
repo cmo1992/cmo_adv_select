@@ -221,7 +221,7 @@ function _cmo_adv_select_load_sessions($casid = NULL) {
   static $sessions;
   if(!isset($sessions)) {
     $sessions = array();
-    $results = explode(',', variable_get('cmo_adv_select_nids'));
+    $results = explode(PHP_EOL, variable_get('cmo_adv_select_nids'));
     foreach ($results as $session) {
       $tmp = explode('|', $session);
       $sessions[$tmp[0]] = $tmp[1];
