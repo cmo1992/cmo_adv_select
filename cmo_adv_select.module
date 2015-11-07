@@ -230,9 +230,9 @@ function _cmo_adv_select_load_sessions($nid = NULL) {
         'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg );
     }
   }
-  dsm($sessions);
+  dsm($nid);
   if (is_numeric($nid)) {
-    return @$sessions[$casid];
+    return @$sessions[$nid];
   }
   else {
     return $sessions;
