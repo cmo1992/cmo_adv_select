@@ -166,7 +166,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
 function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   //module_load_include('inc', 'webform', 'include/submissions');
   $sub = webform_get_submissions($nid);
-  //dsm($sub);
+  dsm($sub);
   if(count($sub) > 0) {
     foreach ($sub as $submission) {
       $selected_option = $submission->data[1];
