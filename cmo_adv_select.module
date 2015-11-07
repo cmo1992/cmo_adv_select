@@ -145,7 +145,7 @@ function _cmo_adv_select_decode_session_string(&$comps, &$cid) {
             'session_details' => $tmp[1],
             'submission_count' => 0
           );
-          $its[$tmp[0]] = $values;
+          $its[$session[0]] = $values;
         }
         else {
           break;
