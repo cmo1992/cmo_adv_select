@@ -30,6 +30,7 @@ function cmo_adv_select_admin_settings() {
   $form['settings']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save settings'),
+    '#submit' => array(cmo_adv_select_save),
   );
 
   return $form;
@@ -37,4 +38,6 @@ function cmo_adv_select_admin_settings() {
 
 function cmo_adv_select_save($form, &$form_state) {
   watchdog('cmo-php', print_r($form_state));
+  drupal_set_message(t('Your new session form has been saved.'));
+  $form_state['redirect'] = 'admin/config/development/cmo_adv_select';
 }
