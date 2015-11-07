@@ -172,6 +172,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
       foreach($submission->data as $element) {
         dsm($element);
         if(isset($its[$element])){
+          dsm('true');
           $its[$element]['submission_count']++;
         }
           //$selected_option = $submission->data[1];
