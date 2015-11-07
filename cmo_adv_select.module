@@ -173,7 +173,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
         //dsm($element[0]);
         if(isset($its[$element[0]])){
           //dsm('true');
-          $its[$element]['submission_count']++;
+          $its[$element[0]]['submission_count']++;
         }
           //$selected_option = $submission->data[1];
           //dsm($selected_option);
