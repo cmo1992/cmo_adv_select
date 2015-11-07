@@ -35,14 +35,6 @@ function cmo_adv_select_menu() {
     'access arguments' => array('administer Advanced Select Settings'),
     'file' => 'cmo_adv_select.admin.inc',
   );
-  // Check if seat is avalable.
-  $items['ajax_seat_check'] = array(
-    'page callback' => 'ajax_seat_check',
-    'access callback' => 'user_access',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ajax_seat_check.inc',
-  );
   return $items;
 }
 
@@ -62,7 +54,9 @@ function cmo_adv_select_permission() {
  * Implements hook_form_alter().
  */
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
-  if ($form['#form_id'] == 'webform_client_form_5' && isset($form['submitted'])) {
+  $nodes = _cmo_adv_select_load_sessions($form['#node']->nid);
+  dsm($nodes);
+  if (isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
     dsm($form);
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
@@ -212,7 +206,7 @@ function _cmo_adv_select_string_push_back(&$items) {
  * @return boolean
  */
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
-  foreach ($items as $key => $value) {
+  foreach ($items as $key_cmo_adv_select_load_sessions => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
     $total_left = intval($value['session_copasity']) - intval($value['submission_count']);
     if ($key == $value_of_session && $total_left > 0) {
