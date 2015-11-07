@@ -56,7 +56,7 @@ function cmo_adv_select_permission() {
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
   // Load configured node ids from variable
   $nodes = _cmo_adv_select_load_sessions();
-  dsm($form);
+  //dsm($form);
   //dsm($nodes);
   if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
     //dsm($form);
@@ -213,10 +213,10 @@ function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
  * Helper method that loads the configured nodes that are using the advansed 
  * select option.
  * @staticvar type $sessions
- * @param type $casid
+ * @param type $nid
  * @return type
  */
-function _cmo_adv_select_load_sessions($casid = NULL) {
+function _cmo_adv_select_load_sessions($nid = NULL) {
   static $sessions;
   $default_error_msg = 'You were to slow!! ' . 
         'Please choose a different section';
@@ -230,8 +230,8 @@ function _cmo_adv_select_load_sessions($casid = NULL) {
         'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg );
     }
   }
-  //dsm($sessions);
-  if (is_numeric($casid)) {
+  dsm($sessions);
+  if (is_numeric($nid)) {
     return @$sessions[$casid];
   }
   else {
