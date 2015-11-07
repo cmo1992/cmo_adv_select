@@ -107,9 +107,7 @@ function ajax_seat_check($form, $form_state) {
       $select_string = _cmo_adv_select_string_push_back($items);
       //dsm($select_string);
       $form['submitted'][$cid]['#options'] = $select_string;
-      watchdog('cmo-php', $form['#node']->nid);
-
-      dsm($error_msg);
+      //dsm($error_msg);
       $form['submitted'][$cid]['#description'] = 'You were to slow!! ' .
           'Please choose a different section';
     }
@@ -240,7 +238,7 @@ function _cmo_adv_select_load_sessions($nid = NULL) {
         'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg);
     }
   }
-  dsm($nid);
+  //dsm($nid);
   if (isset($sessions[$nid])) {
     return $sessions[$nid];
   }
