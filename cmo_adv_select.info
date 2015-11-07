@@ -1,8 +1,9 @@
 name = Advanced Webform Select Option
-description = "Adds advanced options to Select option."
+description = "Adds max number of submissions to each option."
 package = C-MO's Modules
 core = 7.x
 
+dependencies[] = webform
 dependencies[] = variable
 
 configure = admin/config/development/cmo_adv_select
