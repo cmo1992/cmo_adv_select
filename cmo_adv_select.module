@@ -68,15 +68,14 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
     $select_string = _cmo_adv_select_string_push_back($items);
     $form['submitted'][$cid]['#options'] = $select_string;
     // Set Div with ID around Form element that will get updated by AJAX
-    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace-' . 
-        $cid . '">';
+    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace">';
     $form['submitted'][$cid]['#suffix'] = '</div>';
     // Add ajax call back
     $form['submitted'][$cid]['#ajax'] = array(
       // 'callback' is a function that will be called when this element changes.
       'callback' => 'ajax_seat_check',
       // 'wrapper' is the HTML id of the page element that will be replaced.
-      'wrapper' => 'session-ajax-replace-' . $cid,
+      'wrapper' => 'session-ajax-replace',
     );
   }
 }
@@ -181,8 +180,13 @@ function _cmo_adv_select_string_push_back(&$items) {
         intval($value['submission_count']);
     if ($seats_left > 0) {
       $session_details = substr($value['session_details'], 0, strlen($value['session_details']) - 1);
+      if($seats_left > 1) {
       $option[$key] = $session_details . t(". There are ") . $seats_left .
-          t(" seats left\n");
+          t(" seats left.\n");
+      } else {
+        $option[$key] = $session_details . t(". There is ") . $seats_left .
+          t(" seat left.\n");
+      }
     }
   }
   return $option;
