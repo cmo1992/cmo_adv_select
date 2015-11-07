@@ -19,11 +19,12 @@ function cmo_adv_select_admin_settings() {
       'option for the sessions. The options will have to be formatted ' .
       '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"'),
   );
-  $form['settings']['urls'] = array(
+  $form['settings']['visibility_urls'] = array(
     '#type' => 'textarea',
     '#title' => t('Advanced Select Pages'),
     '#description' => t('Add URLs that need the advanced select applied to.'),
-    '#default_value' => '',
+    '#default_value' => variable_get('cmo_adv_select_nids'),
+    '#rows' => 10,
   );
   // Submit button
   $form['settings']['submit'] = array(
@@ -34,3 +35,6 @@ function cmo_adv_select_admin_settings() {
   return $form;
 }
 
+function cmo_adv_select_save($form, &$form_state) {
+  watchdog('cmo-php', print_r($form_state));
+}

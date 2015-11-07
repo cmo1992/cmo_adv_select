@@ -205,7 +205,12 @@ function _cmo_adv_select_string_push_back(&$items) {
   }
   return $option;
 }
-
+/**
+ * Helper function that checks if the selected session has seats left in it or not.
+ * @param type $items
+ * @param type $value_of_session
+ * @return boolean
+ */
 function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
   foreach ($items as $key => $value) {
     //watchdog('cmo-php', 'made it here _cmo_adv_select_is_valid_registration');
@@ -215,4 +220,22 @@ function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
     }
   }
   return FALSE;
+}
+
+function _cmo_adv_select_load_sessions($casid = NULL) {
+  static $sessions;
+  if(!isset($sessions)) {
+    $sessions = array();
+    $results = explode(',', variable_get('cmo_adv_select_nids'));
+    foreach ($results as $session) {
+      $tmp = explode('|', $session);
+      $sessions[$tmp[0]] = $tmp[1];
+    }
+  }
+  if (is_numeric($casid)) {
+    return $sessions[$casid];
+  }
+  else {
+    return $sessions;
+  }
 }
