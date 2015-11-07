@@ -217,10 +217,11 @@ function _cmo_adv_select_is_valid_registration(&$items, &$value_of_session) {
  * @return type
  */
 function _cmo_adv_select_load_sessions($nid = NULL) {
-  static $sessions = array();
+  static $sessions;
   $default_error_msg = 'You were to slow!! ' . 
         'Please choose a different section';
   if(!isset($sessions)) {
+    $sessions  = array();
     $results = explode(PHP_EOL, variable_get('cmo_adv_select_nids'));
     foreach ($results as $session) {
       $tmp = explode('|', $session);
