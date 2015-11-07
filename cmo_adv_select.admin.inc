@@ -37,8 +37,8 @@ function cmo_adv_select_admin_settings() {
 }
 
 function cmo_adv_select_save($form, &$form_state) {
-  watchdog('cmo-php', print_r($form));
-  //variable_set('cmo_adv_select_nids', );
+  dsm($form);
+  variable_set('cmo_adv_select_nids', 9);
   drupal_set_message(t('Your new session form has been saved.'));
   $form_state['redirect'] = 'admin/config/development/cmo_adv_select';
 }
