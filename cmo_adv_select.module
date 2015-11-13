@@ -176,6 +176,21 @@ function ajax_update($form, $form_state) {
 }
 
 /**
+ * Helper method to parse through the submission data.
+ * @param type $its
+ * @param type $subm
+ */
+function _cmo_adv_select_find_data(&$its, &$subm) {
+  if(!is_array($subm) && isset($its[$subm])){
+    $its[$subm]['submission_count']++;
+  } else {
+   foreach ($subm as $value) {
+     _cmo_adv_select_find_data($its, $value);
+   }
+  }
+}
+
+/**
  * Helper method used to total up the submissions.
  * @param type $nid
  * @param type $its
@@ -186,17 +201,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   if (count($sub) > 0) {
     foreach ($sub as $submission) {
       foreach ($submission->data as $element) {
-        //watchdog('cmo-mod', $element);
-        if (isset($its[$element[0]])) {
-          $its[$element[0]]['submission_count']++;
-        } else {
-          foreach ($element as $el) {
-            //watchdog('cmo-mod', $element);
-            if (isset($its[$el[0]])) {
-              $its[$el[0]]['submission_count']++;
-            }
-          }
-        }
+        _cmo_adv_select_find_data($its, $element);
       }
     }
   }
