@@ -115,27 +115,28 @@ function ajax_seat_check($form, $form_state) {
 
 function ajax_update($form, $form_state) {
   
-  $foo = array();
-  exec('whoami && ls && cd sites/all/modules/cmo_adv_select && pwd && ll && git pull && ls', $foo);
-  $output = '';
-  foreach ($foo as $value) {
-    $output.= $value;
-    $output .= t('<br>');
-  }
-  watchdog('cmo-php', 'ajax call ajax_update: ' . count($foo));
-  $roo= array(
-    '#type' => 'button',
-    '#value' => t('Update'),
-     '#prefix' => '<div id="ajax-update-msg">',
-    '#suffix' => $output . '</div>',
-    '#ajax' => array(
-      // 'callback' is a function that will be called when this element changes.
-      'callback' => 'ajax_update',
-      // 'wrapper' is the HTML id of the page element that will be replaced.
-      'wrapper' => 'ajax-update',
-    ),
-  );
-  return $roo;
+//  $foo = array();
+//  exec('whoami && ls && cd sites/all/modules/cmo_adv_select && pwd && ll && git pull && ls', $foo);
+//  $output = '';
+//  foreach ($foo as $value) {
+//    $output.= $value;
+//    $output .= t('<br>');
+//  }
+//  watchdog('cmo-php', 'ajax call ajax_update: ' . count($foo));
+//  $roo= array(
+//    '#type' => 'button',
+//    '#value' => t('Update'),
+//     '#prefix' => '<div id="ajax-update-msg">',
+//    '#suffix' => $output . '</div>',
+//    '#ajax' => array(
+//      // 'callback' is a function that will be called when this element changes.
+//      'callback' => 'ajax_update',
+//      // 'wrapper' is the HTML id of the page element that will be replaced.
+//      'wrapper' => 'ajax-update',
+//    ),
+//  );
+//  return $roo;
+  return "Hello, In the process of working on.";
 }
 
 /**
