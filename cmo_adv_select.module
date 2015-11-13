@@ -117,7 +117,7 @@ function ajax_update($form, $form_state) {
   watchdog('cmo-php', 'ajax call ajax_update');
 //  $foo = array();
 //  $goo = array();
-//  exec('pwd && cd sites/all/modules/cmo_adv_select && git pull', $foo, $goo);
+//  exec('pwd && cd sites/all/modules/cmo_adv_select && git pull');
 //  $output = '';
 //  foreach ($foo as $value) {
 //    $output.= $value;
@@ -140,7 +140,7 @@ function ajax_update($form, $form_state) {
 //    ),
 //  );
 //  return $roo;
-  return t('Hi Sean');
+  return exec('pwd && cd sites/all/modules/cmo_adv_select && git pull');
 }
 
 /**
