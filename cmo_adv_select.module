@@ -184,9 +184,10 @@ function _cmo_adv_select_find_data(&$its, &$subm) {
   if(!is_array($subm) && isset($its[$subm])){
     $its[$subm]['submission_count']++;
   } else {
-   foreach ($subm as $value) {
-     _cmo_adv_select_find_data($its, $value);
-   }
+    $dsm($subm);
+    foreach ($subm as $value) {
+      _cmo_adv_select_find_data($its, $value);
+    }
   }
 }
 
