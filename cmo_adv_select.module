@@ -136,7 +136,7 @@ function ajax_update($form, $form_state) {
 //    ),
 //  );
 //  return $roo;
-  return "Hello, In the process of working on.";
+//  return "Hello, In the process of working on.";
 }
 
 /**
@@ -186,9 +186,9 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   if (count($sub) > 0) {
     foreach ($sub as $submission) {
       foreach ($submission->data as $element) {
+        dsm($element);
         if (isset($its[$element[0]])) {
-          $its[$element[0]][
-              'submission_count'] ++;
+          $its[$element[0]]['submission_count']++;
         }
       }
     }
