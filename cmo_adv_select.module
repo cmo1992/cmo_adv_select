@@ -187,7 +187,7 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
     foreach ($sub as $submission) {
       foreach ($submission->data as $element) {
         //watchdog('cmo-mod', $element);
-        if (!is_array($element) && isset($its[$element[0]])) {
+        if (isset($its[$element[0]])) {
           $its[$element[0]]['submission_count']++;
         } else {
           foreach ($element as $el) {
