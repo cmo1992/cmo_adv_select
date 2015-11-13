@@ -69,8 +69,8 @@ function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
     $select_string = _cmo_adv_select_string_push_back($items);
     $form['submitted'][$cid]['#options'] = $select_string;
     // Set Div with ID around Form element that will get updated by AJAX
-    $form['submitted'][$cid]['#prefix'] = '<div id="session-ajax-replace">';
-    $form['submitted'][$cid]['#suffix'] = '</div>';
+    $form['submitted'][$cid]['#prefix'] = t('<div id="session-ajax-replace">');
+    $form['submitted'][$cid]['#suffix'] = t('</div>');
     // Add ajax call back
     $form['submitted'][$cid]['#ajax'] = array(
       // 'callback' is a function that will be called when this element changes.
