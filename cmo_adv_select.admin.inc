@@ -30,7 +30,7 @@ function cmo_adv_select_admin_settings() {
   $form['settings']['update'] = array(
     '#type' => 'button',
     '#value' => t('Update'),
-     '#prefix' => '<div id="ajax-update"></div>',
+     '#suffix' => '<div id="ajax-update"></div>',
     '#ajax' => array(
       // 'callback' is a function that will be called when this element changes.
       'callback' => 'ajax_update',
