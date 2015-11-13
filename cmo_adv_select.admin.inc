@@ -21,6 +21,18 @@ function cmo_adv_select_admin_settings() {
     '#rows' => 10,
   );
   // Submit button
+  $form['settings']['update'] = array(
+    '#type' => 'button',
+    '#value' => t('Save settings'),
+     '#prefix' => '<div id="ajax-update"></div>',
+    '#ajax' => array(
+      // 'callback' is a function that will be called when this element changes.
+      'callback' => 'ajax_update',
+      // 'wrapper' is the HTML id of the page element that will be replaced.
+      'wrapper' => 'ajax-update',
+    ),
+  );
+  // Submit button
   $form['settings']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save settings'),

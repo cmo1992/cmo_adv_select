@@ -60,7 +60,8 @@ function cmo_adv_select_permission() {
 function cmo_adv_select_form_alter(&$form, &$form_state, $form_id) {
   // Load configured node ids from variable
   $nodes = _cmo_adv_select_load_sessions();
-  if (@isset($nodes[$form['#node']->nid]) && isset($form['submitted'])) {
+  if (@isset($nodes[$form['#node']->nid]) && $nodes[$form['node']->nid] == /*&& isset($form['submitted'])*/) {
+    
     $cid = '';
     $its = _cmo_adv_select_decode_session_string($form['submitted'], $cid);
     $items = _cmo_adv_select_pull_number_of_submissions(
@@ -110,6 +111,10 @@ function ajax_seat_check($form, $form_state) {
     return $form['submitted'][$cid];
   }
   return;
+}
+
+function ajax_update($form, $form_state) {
+    $dsm($form);
 }
 
 /**
@@ -227,6 +232,7 @@ function _cmo_adv_select_load_sessions($nid = NULL) {
     foreach ($results as $session) {
       $tmp = explode('|', $session);
       $sessions[$tmp[0]] = array(
+        'nid' => $tmp[0],
         'title' => $tmp[1],
         'error_msg' => isset($tmp[2]) ? $tmp[2] : $default_error_msg);
     }
