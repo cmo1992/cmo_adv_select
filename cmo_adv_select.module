@@ -122,7 +122,7 @@ function ajax_update($form, $form_state) {
     $output.= $value;
     $output .= t('<br>');
   }
-  watchdog('cmo-php', 'ajax call ajax_update: ' . $output);
+  watchdog('cmo-php', 'ajax call ajax_update: ' . count($foo));
   $roo= array(
     '#type' => 'button',
     '#value' => t('Update'),
