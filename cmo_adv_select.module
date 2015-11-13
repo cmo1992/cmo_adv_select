@@ -122,7 +122,19 @@ function ajax_update($form, $form_state) {
     $output.= $value;
     $output .= t('<br>');
   }
-  return $output;
+  $roo= array(
+    '#type' => 'button',
+    '#value' => t('Update'),
+     '#prefix' => '<div id="ajax-update-msg">',
+    '#suffix' => $output . '</div>',
+    '#ajax' => array(
+      // 'callback' is a function that will be called when this element changes.
+      'callback' => 'ajax_update',
+      // 'wrapper' is the HTML id of the page element that will be replaced.
+      'wrapper' => 'ajax-update',
+    ),
+  );
+  return $roo;
 }
 
 /**
