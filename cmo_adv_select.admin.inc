@@ -21,6 +21,12 @@ function cmo_adv_select_admin_settings() {
     '#rows' => 10,
   );
   // Submit button
+  $form['settings']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save settings'),
+    '#submit' => array('cmo_adv_select_save'),
+  );
+  // Update button
   $form['settings']['update'] = array(
     '#type' => 'button',
     '#value' => t('Update'),
@@ -32,13 +38,6 @@ function cmo_adv_select_admin_settings() {
       'wrapper' => 'ajax-update',
     ),
   );
-  // Submit button
-  $form['settings']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save settings'),
-    '#submit' => array('cmo_adv_select_save'),
-  );
-
   return $form;
 }
 
