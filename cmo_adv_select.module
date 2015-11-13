@@ -116,7 +116,7 @@ function ajax_seat_check($form, $form_state) {
 function ajax_update($form, $form_state) {
   
   $foo = array();
-  exec('cd sites/all/modules/cmo_adv_select && git pull', $foo);
+  exec('cd sites/all/modules/cmo_adv_select && git pull && ls', $foo);
   $output = '';
   foreach ($foo as $value) {
     $output.= $value;
