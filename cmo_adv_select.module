@@ -184,8 +184,7 @@ function _cmo_adv_select_find_data(&$its, &$subm) {
   if(!is_array($subm) && isset($its[$subm])){
     watchdog('cmo-mod++', $subm);
     $its[$subm]['submission_count']++;
-  } else {
-    dsm($subm);
+  } else if(is_array($subm)) {
     watchdog('cmo-mod--', $subm);
     foreach ($subm as $value) {
       _cmo_adv_select_find_data($its, $value);
