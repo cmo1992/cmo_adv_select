@@ -185,9 +185,9 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   $sub = webform_get_submissions($nid);
   if (count($sub) > 0) {
     foreach ($sub as $submission) {
-      dsm($submission);
+      //dsm($submission);
       foreach ($submission->data as $element) {
-        dsm($element[0]);
+        //dsm($element[0]);
         if (isset($its[$element[0]])) {
           $its[$element[0]]['submission_count']++;
         }
