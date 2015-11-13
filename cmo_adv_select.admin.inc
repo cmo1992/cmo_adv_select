@@ -23,7 +23,7 @@ function cmo_adv_select_admin_settings() {
   // Submit button
   $form['settings']['update'] = array(
     '#type' => 'button',
-    '#value' => t('Save settings'),
+    '#value' => t('Update'),
      '#prefix' => '<div id="ajax-update"></div>',
     '#ajax' => array(
       // 'callback' is a function that will be called when this element changes.
