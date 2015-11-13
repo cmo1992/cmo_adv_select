@@ -185,11 +185,17 @@ function _cmo_adv_select_pull_number_of_submissions(&$nid, &$its) {
   $sub = webform_get_submissions($nid);
   if (count($sub) > 0) {
     foreach ($sub as $submission) {
-      //dsm($submission);
       foreach ($submission->data as $element) {
-        watchdog('cmo-mod', $element);
-        if (isset($its[$element[0]])) {
+        //watchdog('cmo-mod', $element);
+        if (!is_array($element) && isset($its[$element[0]])) {
           $its[$element[0]]['submission_count']++;
+        } else {
+          foreach ($element as $el) {
+            //watchdog('cmo-mod', $element);
+            if (isset($its[$el[0]])) {
+              $its[$el[0]]['submission_count']++;
+            }
+          }
         }
       }
     }
