@@ -115,32 +115,31 @@ function ajax_seat_check($form, $form_state) {
 
 function ajax_update($form, $form_state) {
   watchdog('cmo-php', 'ajax call ajax_update');
-//  $foo = array();
-//  $goo = array();
-//  exec('pwd && cd sites/all/modules/cmo_adv_select && git pull');
-//  $output = '';
-//  foreach ($foo as $value) {
-//    $output.= $value;
-//    $output .= t('<br>');
-//  }
-//  foreach ($goo as $value) {
-//    $output.= $value;
-//    $output .= t('<br>');
-//  }
-//  $roo= array(
-//    '#type' => 'button',
-//    '#value' => t('Update'),
-//     '#prefix' => '<div id="ajax-update-msg">',
-//    '#suffix' => $output . '</div>',
-//    '#ajax' => array(
-//      // 'callback' is a function that will be called when this element changes.
-//      'callback' => 'ajax_update',
-//      // 'wrapper' is the HTML id of the page element that will be replaced.
-//      'wrapper' => 'ajax-update',
-//    ),
-//  );
-//  return $roo;
-  return exec('pwd && cd sites/all/modules/cmo_adv_select && git pull');
+  $foo = array();
+  $goo = array();
+  exec('pwd && cd sites/all/modules/cmo_adv_select.git && git pull', $foo, $goo);
+  $output = '';
+  foreach ($foo as $value) {
+    $output.= $value;
+    $output .= t('<br>');
+  }
+  foreach ($goo as $value) {
+    $output.= $value;
+    $output .= t('<br>');
+  }
+  $roo= array(
+    '#type' => 'button',
+    '#value' => t('Update'),
+     '#prefix' => '<div id="ajax-update-msg">',
+    '#suffix' => $output . '</div>',
+    '#ajax' => array(
+      // 'callback' is a function that will be called when this element changes.
+      'callback' => 'ajax_update',
+      // 'wrapper' is the HTML id of the page element that will be replaced.
+      'wrapper' => 'ajax-update',
+    ),
+  );
+  return $roo;
 }
 
 /**
