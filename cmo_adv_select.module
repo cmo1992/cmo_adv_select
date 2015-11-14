@@ -11,7 +11,7 @@
 function cmo_adv_select_help($path, $arg) {
   $out = '';
   switch ($path) {
-    case 'admin/config/development/cmo_adv_select' :
+    case 'admin/config/webform/cmo_adv_select/help' :
       $out .= '<p>' . t('Add URLs for sign up forms that use a select ' .
           'option for the sessions. The options will have to be formatted ' .
           '"sesstionkey_&ltcapasity&gt|&ltSesstion Title&gt &ltDate/Time&gt"') .
@@ -31,7 +31,7 @@ function cmo_adv_select_help($path, $arg) {
  */
 function cmo_adv_select_menu() {
   $items = array();
-  $items['admin/config/development/cmo_adv_select'] = array(
+  $items['admin/config/webform/cmo_adv_select'] = array(
     'title' => 'CMO\'s Advanced Select',
     'description' => 'Add URLs for sign up forms that use a select option for the sessions',
     'page callback' => 'drupal_get_form',
