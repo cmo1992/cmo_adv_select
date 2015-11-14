@@ -6,4 +6,4 @@ core = 7.x
 dependencies[] = webform
 dependencies[] = variable
 
-configure = admin/config/webform/cmo_adv_select
+configure = admin/config/content/cmo_adv_select
